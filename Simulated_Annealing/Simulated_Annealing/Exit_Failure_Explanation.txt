@@ -1,0 +1,7 @@
+Program Exit Explanation
+
+Error occurred: Thu Nov 28 16:15:45 2019
+
+Error: double SA::trncst(std::vector<double> &x, std::vector<double> &y, std::vector<int> &iorder, int &ncity, std::vector<int> &n)
+n does not have correct size
+

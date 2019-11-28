@@ -41,7 +41,7 @@ void SA::trnspt(std::vector<int> &iorder, int &ncity, std::vector<int> &n)
 		
 		bool c1 = ncity > 0 ? true : false;
 		bool c2 = iorder.size() == ncity ? true : false; 
-		bool c3 = n.size() == ncity ? true : false; 
+		bool c3 = n.size() == 6 ? true : false; 
 		bool c10 = c1 && c2 && c3; 
 
 		if (c10) {
@@ -105,7 +105,7 @@ void SA::reverse(std::vector<int> &iorder, int &ncity, std::vector<int> &n)
 	
 		bool c1 = ncity > 0 ? true : false;
 		bool c2 = iorder.size() == ncity ? true : false;
-		bool c3 = n.size() == ncity ? true : false;
+		bool c3 = n.size() == 6 ? true : false;
 		bool c10 = c1 && c2 && c3;
 
 		if (c10) {
@@ -187,7 +187,6 @@ void SA::anneal(std::vector<double> &x, std::vector<double> &y, std::vector<int>
 			for (j = 0; j < 100; j++) {
 				nsucc = 0;
 				for (k = 0; k < nover; k++) {
-
 					do {
 						n[0] = (int)(ncity*rng::ran1(&idum)); // choose the beginning and end of the segment
 						n[1] = (int)((ncity - 1)*rng::ran1(&idum));
@@ -220,8 +219,7 @@ void SA::anneal(std::vector<double> &x, std::vector<double> &y, std::vector<int>
 					}
 					if (nsucc >= nlimit) break;
 				}
-				/*printf("\n %s %10.6f %s %12.6f \n", "T =", t,"	 Path Length =", path);
-				printf("Successful Moves: %6d\n", nsucc);*/
+				
 				std::cout << "\nT = " << std::setw(12) << t; 
 				std::cout << "Path-length" << std::setw(12) << path << "\n";
 				std::cout << "Successul moves: " << nsucc << "\n"; 
@@ -258,7 +256,7 @@ double SA::trncst(std::vector<double> &x, std::vector<double> &y, std::vector<in
 
 		bool c1 = ncity > 0 ? true : false;
 		bool c2 = iorder.size() == ncity ? true : false;
-		bool c3 = n.size() == ncity ? true : false;
+		bool c3 = n.size() == 6 ? true : false;
 		bool c4 = x.size() == ncity ? true : false;
 		bool c5 = y.size() == ncity ? true : false;
 		bool c10 = c1 && c2 && c3 && c4 && c5;
@@ -320,7 +318,7 @@ double SA::revcst(std::vector<double> &x, std::vector<double> &y, std::vector<in
 	
 		bool c1 = ncity > 0 ? true : false;
 		bool c2 = iorder.size() == ncity ? true : false;
-		bool c3 = n.size() == ncity ? true : false;
+		bool c3 = n.size() == 6 ? true : false;
 		bool c4 = x.size() == ncity ? true : false;
 		bool c5 = y.size() == ncity ? true : false;
 		bool c10 = c1 && c2 && c3 && c4 && c5;

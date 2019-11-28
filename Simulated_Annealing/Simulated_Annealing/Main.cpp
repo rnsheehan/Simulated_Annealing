@@ -8,12 +8,7 @@
 int main() 
 {
 	
-	std::cout << "Something\n"; 
-	double a, b, c, d; 
-
-	a = 0; b = 1; c = 0; d = 1;
-
-	std::cout << template_funcs::ALEN(a, b, c, d)<<"\n";
+	testing::annealing(); 
 
 	std::cout << "Press Enter to Close\n"; 
 	std::cin.get(); 

@@ -6,6 +6,7 @@
 
 namespace testing{
 	
+	void annealing(); 
 	
 }
 
