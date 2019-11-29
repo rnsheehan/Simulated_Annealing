@@ -5,9 +5,9 @@
 void testing::annealing()
 {
 	// test the simulated annealing approach for the travelling salesman problem
-	int NCITY = 10; 
+	int NCITY = 17; 
 	int i, ii; 
-	long idum = -111; 
+	long idum = rng::ranseed(); 
 
 	std::vector<int> iorder(NCITY); 
 	std::vector<double> x(NCITY); 

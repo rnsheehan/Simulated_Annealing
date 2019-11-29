@@ -5,6 +5,16 @@
 // Implementation of the RNG taken from NRinC, ch 7
 // R. Sheehan 7 - 9 - 2017
 
+long rng::ranseed()
+{
+	// Use current time information to generate seed value for rng
+	time_t rawtime;
+
+	time(&rawtime);
+
+	return static_cast<long>(-rawtime);
+}
+
 int rng::ranint(long *idum, int &low, int &high)
 {
 	// Return a random integer in the range [low, high]

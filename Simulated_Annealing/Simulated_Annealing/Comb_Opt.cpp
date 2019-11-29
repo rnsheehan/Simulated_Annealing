@@ -49,30 +49,28 @@ void SA::trnspt(std::vector<int> &iorder, int &ncity, std::vector<int> &n)
 
 			std::vector<int> jorder(ncity);
 
-			m1 = (n[1] - n[0] + ncity) % ncity; // Find number of cities from n[0] to n[1]
-			m2 = (n[4] - n[3] + ncity) % ncity; // and the number from n[3] to n[4]
-			m3 = (n[2] - n[5] + ncity) % ncity; // and the numbre from n[5] to n[2]
+			m1 = ((n[1] - n[0] + ncity) % ncity); // Find number of cities from n[0] to n[1]
+			m2 = ((n[4] - n[3] + ncity) % ncity); // and the number from n[3] to n[4]
+			m3 = ((n[2] - n[5] + ncity) % ncity); // and the numbre from n[5] to n[2]
 			
+			// Check values of m1, m2, m3
 			nn = 0;			
 			for (j = 0; j <= m1; j++) {
 				jj = (j + n[0]) % ncity; // copy the chosen segment
 				jorder[nn++] = iorder[jj];
 			}
 
-			if (m2>0) {
-				for (j = 0; j <= m2; j++) {
-					jj = (j + n[3]) % ncity; // copy the segment n[3] to n[4]
-					jorder[nn++] = iorder[jj];
-				}
+			for (j = 0; j <= m2; j++) {
+				jj = (j + n[3]) % ncity; // copy the segment n[3] to n[4]
+				jorder[nn++] = iorder[jj];
 			}
 			
-			if (m3>0) {
-				for (j = 0; j <= m3; j++) {
-					jj = (j + n[5]) % ncity; // copy the segment n[5] to n[2]
-					jorder[nn++] = iorder[jj];
-				}
+			for (j = 0; j <= m3; j++) {
+				jj = (j + n[5]) % ncity; // copy the segment n[5] to n[2]
+				jorder[nn++] = iorder[jj];
 			}
 
+			// Check contents of jorder
 			for (j = 0; j < ncity; j++)
 				iorder[j] = jorder[j]; // copy jorder into iorder
 			
@@ -113,14 +111,14 @@ void SA::reverse(std::vector<int> &iorder, int &ncity, std::vector<int> &n)
 			int nn, j, k, l, itmp;
 
 			nn = (1 + ((n[1] - n[0] + ncity) % ncity)) / 2; // This many cities must be swapped to effect the reversal
-			for (j = 0; j < nn; j++) {
-				k = ((n[0] + j) % ncity); // start at end of segment, swap pairs of cities, work towards the centre
-				l = ((n[1] - j + ncity) % ncity);
+
+			for (j = 0; j < nn; j++) { 
+				k = (n[0] + j) % ncity; // start at end of segment, swap pairs of cities, work towards the centre
+				l = (n[1] - j + ncity) % ncity;
 				itmp = iorder[k];
 				iorder[k] = iorder[l];
 				iorder[l] = itmp;
 			}
-
 		}
 		else {
 			std::string reason;
@@ -176,11 +174,11 @@ void SA::anneal(std::vector<double> &x, std::vector<double> &y, std::vector<int>
 				i2 = iorder[i + 1];
 				path += template_funcs::ALEN(x[i1], x[i2], y[i1], y[i2]);
 			}
-
 			i1 = iorder[ncity-1];
 			i2 = iorder[0];
 			path += template_funcs::ALEN(x[i1], x[i2], y[i1], y[i2]);
-			idum = -1;
+
+			idum = rng::ranseed();
 			iseed = 111;
 			std::cout << std::fixed << std::setprecision(6); 
 			// try 100 temperature steps
@@ -192,7 +190,7 @@ void SA::anneal(std::vector<double> &x, std::vector<double> &y, std::vector<int>
 						n[1] = (int)((ncity - 1)*rng::ran1(&idum));
 						if (n[1] >= n[0]) ++n[1];
 						nn = (n[0] - n[1] + ncity - 1) % ncity; // nn is the number of cities not on the segment	
-					} while (nn<2);
+					} while (nn<2); 
 					
 					// Decide whether to do segment reversal or transport
 					idec = rng::irbit1(&iseed);
@@ -220,8 +218,8 @@ void SA::anneal(std::vector<double> &x, std::vector<double> &y, std::vector<int>
 					if (nsucc >= nlimit) break;
 				}
 				
-				std::cout << "\nT = " << std::setw(12) << t; 
-				std::cout << "Path-length" << std::setw(12) << path << "\n";
+				std::cout << "T: " << t<<"\t"; 
+				std::cout << "Path-length: " << path << "\t";
 				std::cout << "Successul moves: " << nsucc << "\n"; 
 				t *= TFACTR;
 				if (nsucc == 0) return;
@@ -265,12 +263,12 @@ double SA::trncst(std::vector<double> &x, std::vector<double> &y, std::vector<in
 			double de;
 			int j, ii;
 
-			std::vector<double> xx(ncity);
-			std::vector<double> yy(ncity);
+			std::vector<double> xx(6);
+			std::vector<double> yy(6);
 
 			n[3] = (n[2] + 1) % ncity; // find the city following n[2]
 			n[4] = (n[0] + ncity - 1) % ncity; // find city preceding n[0]
-			n[5] = (n[1] + 1) % ncity; /// find city following n[1]
+			n[5] = (n[1] + 1) % ncity; /// find city following n[1]		
 
 			for (j = 0; j < 6; j++) {
 				ii = iorder[n[j]]; // determine coordinates for 6 cities involved
@@ -286,6 +284,8 @@ double SA::trncst(std::vector<double> &x, std::vector<double> &y, std::vector<in
 			de += template_funcs::ALEN(xx[0], xx[2], yy[0], yy[2]);
 			de += template_funcs::ALEN(xx[1], xx[3], yy[1], yy[3]);
 			de += template_funcs::ALEN(xx[4], xx[5], yy[4], yy[5]);
+
+			xx.clear(); yy.clear(); 
 
 			return de;
 		}
@@ -328,13 +328,15 @@ double SA::revcst(std::vector<double> &x, std::vector<double> &y, std::vector<in
 			double de;
 			int j, ii;
 
-			std::vector<double> xx(ncity);
-			std::vector<double> yy(ncity);
+			std::vector<double> xx(4);
+			std::vector<double> yy(4);
+
+			// Check contents of n and iorder
 
 			n[2] = (n[0] + ncity - 1) % ncity; // Find city before n[0]
-			n[3] = (n[1] + 1) % ncity; // find city after n[1]
+			n[3] = (n[1] + 1) % ncity; // find city after n[1]		
 
-			for (j = 0; j < 4; j++) {
+			for (j = 0; j < 4; j++) { 
 				ii = iorder[n[j]]; // get coordinates of the 4 cities involved
 				xx[j] = x[ii];
 				yy[j] = y[ii];
@@ -345,6 +347,8 @@ double SA::revcst(std::vector<double> &x, std::vector<double> &y, std::vector<in
 			de -= template_funcs::ALEN(xx[1], xx[3], yy[1], yy[3]);
 			de += template_funcs::ALEN(xx[0], xx[3], yy[0], yy[3]);
 			de += template_funcs::ALEN(xx[1], xx[2], yy[1], yy[2]);
+
+			xx.clear(); yy.clear(); 
 
 			return de;
 		}

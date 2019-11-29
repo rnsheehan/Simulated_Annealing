@@ -6,6 +6,8 @@
 
 namespace rng{
 
+	long ranseed(); // generate a random seed value
+
 	int ranint(long *idum, int &low, int &high); // random integer in the range [low, high]
 
 	// uniformly distributed random number generators
