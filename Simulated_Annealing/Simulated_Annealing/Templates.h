@@ -35,7 +35,7 @@ namespace template_funcs{
 
 	template <class T> T ALEN(T &a, T &b, T &c, T &d)
 	{
-		// Updated version of SHFT Macro
+		// Compute distance between two points (a, c) and (b, d)
 		T arg1 = (b)-(a); 
 		T arg2 = (d)-(c);
 		return sqrt( DSQR(arg1) + DSQR(arg2) );

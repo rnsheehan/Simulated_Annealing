@@ -1,7 +1,9 @@
 Program Exit Explanation
 
-Error occurred: Thu Nov 28 16:15:45 2019
+Error occurred: Wed Dec  2 15:51:28 2020
 
-Error: double SA::trncst(std::vector<double> &x, std::vector<double> &y, std::vector<int> &iorder, int &ncity, std::vector<int> &n)
-n does not have correct size
+Error: void SA::anneal(std::vector<double> &x, std::vector<double> &y, std::vector<int> &iorder, int &ncity)
+iorder does not have correct size
+x does not have correct size
+y does not have correct size
 
